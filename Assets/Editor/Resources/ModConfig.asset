@@ -13,7 +13,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: burglarAlarm
   title: Burglar Alarm
-  description: 
+  description: 'Why would you want to rob a bomb?
+
+
+    Created by: Marksam32
+
+    Mod id: burglarAlarm
+
+
+    Manual:
+
+    HTML:
+
+    PDF:
+
+
+    Twitch plays is supported.
+
+
+    Note: I''m new at programming in c# and english is not my native language. So
+    if you want to report any typos or bugs in the module or the manual, contact me
+    on discord: Marksam32#2748
+
+'
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 2800000, guid: fe0d2eac0fac46640b63cc3b7d0af96c, type: 3}
