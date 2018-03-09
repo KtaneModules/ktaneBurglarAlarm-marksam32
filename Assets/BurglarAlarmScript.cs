@@ -68,15 +68,18 @@ public class BurglarAlarmScript : MonoBehaviour {
                 Audio.PlaySoundAtTransform("Button sound", this.Buttons[myIndex].transform);
                 this.Buttons[myIndex].AddInteractionPunch();
 
+
+                if (this.noPressed > 8)
+                {
+                    Debug.LogFormat("[Burglar Alarm #{1}] Pressed too many numbers! Strike!", this._moduleId);
+                    this.HandleStrike();
+                }
+
                 if (!activated || this.isSolved)
                 {
                     return false;
                 }
 
-                if (this.noPressed > 7)
-                {
-                    this.HandleStrike();
-                }
                 else
                 {
                     this.answers[this.noPressed++] = myIndex;
@@ -114,6 +117,11 @@ public class BurglarAlarmScript : MonoBehaviour {
 
         this.SubmitButton.OnInteract += delegate ()
         {
+            if (this.activated)
+            {
+                Debug.LogFormat("[Burglar Alarm #{0}] Submitted: {1}.", this._moduleId, string.Join(",", this.answers.Select(x => x.ToString()).ToArray()));
+            }
+            
             Audio.PlaySoundAtTransform("Button sound", this.SubmitButton.transform);
             SubmitButton.AddInteractionPunch();
             if (this.isSolved)
@@ -121,8 +129,9 @@ public class BurglarAlarmScript : MonoBehaviour {
                 return false;
             }
 
-            if (!this.activated || this.noPressed != 8)
+            if (!this.activated)
             {
+                Debug.LogFormat("[Burglar Alarm #{0}] Submitted a number before activating the module. Strike!", this._moduleId);
                 this.HandleStrike();
                 return false;
             }
@@ -130,7 +139,6 @@ public class BurglarAlarmScript : MonoBehaviour {
             bool success = true;
             for (int i = 0; i < this.answers.Count(); ++i)
             {
-                Debug.Log(string.Format("[Burglar Alarm #{0}] Answer {1} got {2}; expected {3}", this._moduleId, i, this.answers[i], this.numberHandlers[i].GetNumber()));
                 if (this.answers[i] != this.numberHandlers[i].GetNumber())
                 {
                     success = false;
