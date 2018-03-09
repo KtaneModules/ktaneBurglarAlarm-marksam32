@@ -27,7 +27,8 @@ public class BurglarAlarmScript : MonoBehaviour {
 
     private System.Random rnd = new System.Random(DateTimeOffset.UtcNow.GetHashCode());
 
-    private Regex TwitchPlayRegex = new Regex(@"^submit +(\d{8})$");
+    private Regex TwitchPlayRegex = new Regex(@"^submit +(\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d)$");
+
 
     private KMAudio.KMAudioRef activationSound;
 
@@ -68,16 +69,16 @@ public class BurglarAlarmScript : MonoBehaviour {
                 Audio.PlaySoundAtTransform("Button sound", this.Buttons[myIndex].transform);
                 this.Buttons[myIndex].AddInteractionPunch();
 
-
-                if (this.noPressed > 8)
-                {
-                    Debug.LogFormat("[Burglar Alarm #{1}] Pressed too many numbers! Strike!", this._moduleId);
-                    this.HandleStrike();
-                }
-
                 if (!activated || this.isSolved)
                 {
                     return false;
+                }
+
+                if (this.noPressed >= 8)
+                {
+                    Debug.LogFormat("[Burglar Alarm #{0}] Pressed too many numbers! Strike!", this._moduleId);
+                    this.HandleStrike();
+                    return false;                   
                 }
 
                 else
@@ -228,7 +229,7 @@ public class BurglarAlarmScript : MonoBehaviour {
         var match = TwitchPlayRegex.Match(command);
         if (match.Success)
         {
-            return match.Groups[1].Value.Select(x => Buttons[int.Parse(x.ToString())]).Concat(new[] { SubmitButton }).ToArray();
+            return match.Groups[1].Value.Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("\n", "").Select(x => Buttons[int.Parse(x.ToString())]).Concat(new[] { SubmitButton }).ToArray();
         }
 
         return null;
