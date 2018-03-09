@@ -3445,7 +3445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: burglarAlarm
-  ModuleDisplayName: Burglar alarm
+  ModuleDisplayName: Burglar Alarm
   RequiresTimerVisibility: 0
 --- !u!114 &114718357065031392
 MonoBehaviour:
