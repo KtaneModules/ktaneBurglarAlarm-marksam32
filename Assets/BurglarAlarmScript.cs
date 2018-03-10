@@ -40,25 +40,18 @@ public class BurglarAlarmScript : MonoBehaviour {
         this.activated = false;
         this.moduleNumber = new int[8];
         this.answers = new int[8];
-        this.numberHandlers = new List<INumberHandler>();
-
+        
         for (int i = 0; i < this.moduleNumber.Length; ++i)
         {
             this.moduleNumber[i] = this.rnd.Next(0, 10);
         }
 
+
         var burglarAlarmHelper = new BurglarAlarmHelper(this.moduleNumber, this.Info);
+        this.numberHandlers = CreateNumberHandlers(burglarAlarmHelper);
 
-        numberHandlers.Add(new NumberHandlerPos1(burglarAlarmHelper));
-        numberHandlers.Add(new NumberHandlerPos2(burglarAlarmHelper));
-        numberHandlers.Add(new NumberHandlerPos3(burglarAlarmHelper));
-        numberHandlers.Add(new NumberHandlerPos4(burglarAlarmHelper));
-        numberHandlers.Add(new NumberHandlerPos5(burglarAlarmHelper));
-        numberHandlers.Add(new NumberHandlerPos6(burglarAlarmHelper));
-        numberHandlers.Add(new NumberHandlerPos7(burglarAlarmHelper));
-        numberHandlers.Add(new NumberHandlerPos8(burglarAlarmHelper));
-
-        Debug.LogFormat("[Burglar Alarm #{0}] Module number is: {1}.", this._moduleId, string.Join(",",  this.moduleNumber.Select(x => x.ToString()).ToArray()));
+        Debug.LogFormat("[Burglar Alarm #{0}] Module number is: {1}.", this._moduleId, string.Join(string.Empty,  this.moduleNumber.Select(x => x.ToString()).ToArray()));
+        LogSolutionAlternatives(this._moduleId, this.moduleNumber, this.Info);
 
         this.DisplayText.text = burglarAlarmHelper.ToStringNumber;
         for (int i = 0; i < this.Buttons.Count(); ++i)
@@ -107,7 +100,8 @@ public class BurglarAlarmScript : MonoBehaviour {
             else
             {
                 Debug.LogFormat("[Burglar Alarm #{0}] Module activated!", this._moduleId);
-                Debug.LogFormat("[Burglar Alarm #{0}] Expected input: {1}.", this._moduleId, string.Join(",", numberHandlers.Select(x => x.GetNumber().ToString()).ToArray()));
+                Debug.LogFormat("[Burglar Alarm #{0}] Started at {1} solves.", this._moduleId, this.Info.GetSolvedModuleNames().Count);
+                Debug.LogFormat("[Burglar Alarm #{0}] Expected input: {1}.", this._moduleId, LogModuleSolutionNumber(numberHandlers));
                 StartCoroutine("Countdown");
                 this.activationSound = Audio.PlaySoundAtTransformWithRef("Activation sound", Module.transform);
                 this.activated = true;
@@ -120,7 +114,7 @@ public class BurglarAlarmScript : MonoBehaviour {
         {
             if (this.activated)
             {
-                Debug.LogFormat("[Burglar Alarm #{0}] Submitted: {1}.", this._moduleId, string.Join(",", this.answers.Select(x => x.ToString()).ToArray()));
+                Debug.LogFormat("[Burglar Alarm #{0}] Submitted: {1}.", this._moduleId, string.Join(string.Empty, this.answers.Select(x => x.ToString()).ToArray()));
             }
             
             Audio.PlaySoundAtTransform("Button sound", this.SubmitButton.transform);
@@ -214,7 +208,34 @@ public class BurglarAlarmScript : MonoBehaviour {
         }
     }
 
+    private static IList<INumberHandler> CreateNumberHandlers(BurglarAlarmHelper burglarAlarmHelper)
+    {
+        var  numberHandlers = new List<INumberHandler>();
 
+        numberHandlers.Add(new NumberHandlerPos1(burglarAlarmHelper));
+        numberHandlers.Add(new NumberHandlerPos2(burglarAlarmHelper));
+        numberHandlers.Add(new NumberHandlerPos3(burglarAlarmHelper));
+        numberHandlers.Add(new NumberHandlerPos4(burglarAlarmHelper));
+        numberHandlers.Add(new NumberHandlerPos5(burglarAlarmHelper));
+        numberHandlers.Add(new NumberHandlerPos6(burglarAlarmHelper));
+        numberHandlers.Add(new NumberHandlerPos7(burglarAlarmHelper));
+        numberHandlers.Add(new NumberHandlerPos8(burglarAlarmHelper));
+
+        return numberHandlers;
+    }
+
+    private static void LogSolutionAlternatives(int moduleId, int[] a, KMBombInfo bomboInfo)
+    {
+        Debug.LogFormat("[Burglar Alarm #{0}] Solution for even solves and Number of solves <= (Batteries x portplates): {1}.", moduleId, LogModuleSolutionNumber(CreateNumberHandlers(new BurglarAlarmHelper(a, bomboInfo, true, false))));
+        Debug.LogFormat("[Burglar Alarm #{0}] Solution for even solves and Number of solves > (Batteries x portplates): {1}.", moduleId, LogModuleSolutionNumber(CreateNumberHandlers(new BurglarAlarmHelper(a, bomboInfo, true, true))));
+        Debug.LogFormat("[Burglar Alarm #{0}] Solution for odd solves and Number of solves <= (Batteries x portplates): {1}.", moduleId, LogModuleSolutionNumber(CreateNumberHandlers(new BurglarAlarmHelper(a, bomboInfo, false, false))));
+        Debug.LogFormat("[Burglar Alarm #{0}] Solution for odd solves and Number of solves > (Batteries x portplates): {1}.", moduleId, LogModuleSolutionNumber(CreateNumberHandlers(new BurglarAlarmHelper(a, bomboInfo, false, true))));
+    }
+
+    private static string LogModuleSolutionNumber(IList<INumberHandler> handlers)
+    {
+        return string.Join(string.Empty, handlers.Select(x => x.GetNumber().ToString()).ToArray());
+    }
 
     //Twitch plays:
     KMSelectable[] ProcessTwitchCommand(string command)
@@ -238,7 +259,6 @@ public class BurglarAlarmScript : MonoBehaviour {
     public string TwitchHelpMessage = "Activate the module using !{0} activate , Submit the correct answer using ! {0} submit ######## .";
 
     // Update is called once per frame
-    void Update () {
-		
+    void Update () {	
 	}
 }

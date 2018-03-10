@@ -1,19 +1,34 @@
 ﻿
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class BurglarAlarmHelper
 {
     private readonly IList<int> tokenizedModuleNumber = new List<int>();
     private readonly KMBombInfo kmBombInfo;
+    private readonly bool? isEvenNoSolvedModules;
+    private readonly bool? isSolvedGreaterBateriesTimesPortPlates;
 
-    public BurglarAlarmHelper(IList<int> tokenizedModuleNumber, KMBombInfo kmBombInfo)
+    public BurglarAlarmHelper(IList<int> tokenizedModuleNumber, KMBombInfo kmBombInfo) :
+        this(tokenizedModuleNumber, kmBombInfo, null, null)
+    {
+    }
+
+    /// <summary>
+    /// Initialize helper class for the burglar alarm module.
+    /// </summary>
+    /// <param name="tokenizedModuleNumber">The number, as a list of integers.</param>
+    /// <param name="kmBombInfo">KMBomb information.</param>
+    /// <param name="isEvenNoSolvedModules">Nullable bool for overriding the default value for number of solved modules.</param>
+    /// <param name="isSolvedGreaterBateriesTimesPortPlates">Nullable bool for overiding the default value of 
+    /// number of solved greater than number of batteries times port plates.</param>
+    /// <remarks>The two nullable bools should only be used for log debug purposes.</remarks>
+    public BurglarAlarmHelper(IList<int> tokenizedModuleNumber, KMBombInfo kmBombInfo, bool? isEvenNoSolvedModules, bool? isSolvedGreaterBateriesTimesPortPlates)
     {
         this.tokenizedModuleNumber = tokenizedModuleNumber;
         this.kmBombInfo = kmBombInfo;
+        this.isEvenNoSolvedModules = isEvenNoSolvedModules;
+        this.isSolvedGreaterBateriesTimesPortPlates = isSolvedGreaterBateriesTimesPortPlates;
     }
 
     public string ToStringNumber
@@ -62,7 +77,7 @@ public class BurglarAlarmHelper
     {
         get
         {
-            return this.kmBombInfo.GetSolvedModuleNames().Count() > this.GetBatteryCount * this.GetPortPlatesCount;
+            return this.isSolvedGreaterBateriesTimesPortPlates ?? this.kmBombInfo.GetSolvedModuleNames().Count() > this.GetBatteryCount * this.GetPortPlatesCount;
         }
     }
 
@@ -70,7 +85,7 @@ public class BurglarAlarmHelper
     {
         get
         {
-            return this.IsEvenNumber(this.kmBombInfo.GetSolvedModuleNames().Count);
+            return this.isEvenNoSolvedModules ?? this.IsEvenNumber(this.kmBombInfo.GetSolvedModuleNames().Count);
         }
     }
 
@@ -269,7 +284,6 @@ public class BurglarAlarmHelper
     {
         return this.kmBombInfo.GetPortCount(type) > 0;
     }
-
 }
 
 public interface INumberHandler

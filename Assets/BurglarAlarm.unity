@@ -315,11 +315,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114712738567178378, guid: 9efdfb7486db1e749b61f39d273fbfde,
-        type: 2}
-      propertyPath: ModuleDisplayName
-      value: Burglar Alarm
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9efdfb7486db1e749b61f39d273fbfde, type: 2}
   m_IsPrefabParent: 0
