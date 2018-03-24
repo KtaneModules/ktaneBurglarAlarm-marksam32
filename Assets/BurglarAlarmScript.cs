@@ -256,7 +256,7 @@ public class BurglarAlarmScript : MonoBehaviour {
         return null;
     }
 
-    public string TwitchHelpMessage = "Activate the module using !{0} activate , Submit the correct answer using ! {0} submit ######## .";
+    public string TwitchHelpMessage = "Activate the module using !{0} activate , Submit the correct answer using !{0} submit ######## .";
 
     // Update is called once per frame
     void Update () {	
