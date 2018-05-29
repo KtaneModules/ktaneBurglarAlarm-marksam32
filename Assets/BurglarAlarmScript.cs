@@ -44,8 +44,7 @@ public class BurglarAlarmScript : MonoBehaviour {
         for (int i = 0; i < this.moduleNumber.Length; ++i)
         {
             this.moduleNumber[i] = this.rnd.Next(0, 10);
-        }
-
+        };
 
         var burglarAlarmHelper = new BurglarAlarmHelper(this.moduleNumber, this.Info);
         this.numberHandlers = CreateNumberHandlers(burglarAlarmHelper);
@@ -54,6 +53,12 @@ public class BurglarAlarmScript : MonoBehaviour {
         LogSolutionAlternatives(this._moduleId, this.moduleNumber, this.Info);
 
         this.DisplayText.text = burglarAlarmHelper.ToStringNumber;
+
+        this.Info.OnBombExploded += delegate ()
+        {
+            this.StopSound();
+        };
+
         for (int i = 0; i < this.Buttons.Count(); ++i)
         {
             var myIndex = i;
@@ -82,7 +87,6 @@ public class BurglarAlarmScript : MonoBehaviour {
                 return false;
             };
         }
-
 
         this.ActivateButton.OnInteract += delegate ()
         {
@@ -236,6 +240,7 @@ public class BurglarAlarmScript : MonoBehaviour {
     {
         return string.Join(string.Empty, handlers.Select(x => x.GetNumber().ToString()).ToArray());
     }
+    
 
     //Twitch plays:
     KMSelectable[] ProcessTwitchCommand(string command)

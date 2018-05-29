@@ -13,29 +13,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: burglarAlarm
   title: Burglar Alarm
-  description: 'Why would you want to rob a bomb?
-
-
-    Created by: Marksam32
-
-    Mod id: burglarAlarm
-
-
-    Manual:
-
-    HTML: https://ktane.timwi.de/HTML/Burglar%20Alarm.html
-
-    PDF: https://ktane.timwi.de/PDF/Burglar%20Alarm.pdf
-
-
-    Twitch plays is supported.
-
-
-    Note: I''m new at programming in c# and english is not my native language. So
-    if you want to report any typos or bugs in the module or the manual, contact me
-    on discord: Marksam32#2748
-
-'
+  description: "Why would you want to rob a bomb?\r\n\r\nCreated by: Marksam32\r\nMod
+    id: burglarAlarm\r\n\r\nManual:\r\nHTML: https://ktane.timwi.de/HTML/Burglar%20Alarm.html\r\nPDF:
+    https://ktane.timwi.de/PDF/Burglar%20Alarm.pdf\r\n\r\nTwitch plays is supported.\r\n\r\nNote:
+    I'm new at programming in c# and english is not my native language. So if you
+    want to report any typos or bugs in the module or the manual, contact me on discord:
+    Marksam32#2748"
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 2800000, guid: b74ee7793b59fb449ad19b1495fbc28d, type: 3}
+  previewImage: {fileID: 2800000, guid: d9968e52106484748be0e4d85ec19652, type: 3}
