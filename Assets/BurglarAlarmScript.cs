@@ -33,14 +33,12 @@ public class BurglarAlarmScript : MonoBehaviour {
     private KMAudio.KMAudioRef activationSound;
 
     private int noPressed;
-    // Use this for initialization
-    void Start()
-    {      
-        _moduleId = _moduleIdCounter++;
+    void Activate()
+    {
         this.activated = false;
         this.moduleNumber = new int[8];
         this.answers = new int[8];
-        
+
         for (int i = 0; i < this.moduleNumber.Length; ++i)
         {
             this.moduleNumber[i] = this.rnd.Next(0, 10);
@@ -49,7 +47,7 @@ public class BurglarAlarmScript : MonoBehaviour {
         var burglarAlarmHelper = new BurglarAlarmHelper(this.moduleNumber, this.Info);
         this.numberHandlers = CreateNumberHandlers(burglarAlarmHelper);
 
-        Debug.LogFormat("[Burglar Alarm #{0}] Module number is: {1}.", this._moduleId, string.Join(string.Empty,  this.moduleNumber.Select(x => x.ToString()).ToArray()));
+        Debug.LogFormat("[Burglar Alarm #{0}] Module number is: {1}.", this._moduleId, string.Join(string.Empty, this.moduleNumber.Select(x => x.ToString()).ToArray()));
         LogSolutionAlternatives(this._moduleId, this.moduleNumber, this.Info);
 
         this.DisplayText.text = burglarAlarmHelper.ToStringNumber;
@@ -76,14 +74,14 @@ public class BurglarAlarmScript : MonoBehaviour {
                 {
                     Debug.LogFormat("[Burglar Alarm #{0}] Pressed too many numbers! Strike!", this._moduleId);
                     this.HandleStrike();
-                    return false;                   
+                    return false;
                 }
 
                 else
                 {
                     this.answers[this.noPressed++] = myIndex;
                 }
-        
+
                 return false;
             };
         }
@@ -120,7 +118,7 @@ public class BurglarAlarmScript : MonoBehaviour {
             {
                 Debug.LogFormat("[Burglar Alarm #{0}] Submitted: {1}.", this._moduleId, string.Join(string.Empty, this.answers.Select(x => x.ToString()).ToArray()));
             }
-            
+
             Audio.PlaySoundAtTransform("Button sound", this.SubmitButton.transform);
             SubmitButton.AddInteractionPunch();
             if (this.isSolved)
@@ -158,6 +156,12 @@ public class BurglarAlarmScript : MonoBehaviour {
             return false;
         };
 
+    }
+    // Use this for initialization
+    void Start()
+    {      
+        _moduleId = _moduleIdCounter++;
+        Module.OnActivate += Activate;      
     }
 
     private void HandleStrike()
