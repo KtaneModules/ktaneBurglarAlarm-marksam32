@@ -255,7 +255,7 @@ public class BurglarAlarmHelper
     {
         get
         {
-            return this.kmBombInfo.GetBatteryCount(KMBombInfoExtensions.KnownBatteryType.D) > this.kmBombInfo.GetBatteryCount(KMBombInfoExtensions.KnownBatteryType.AA);
+            return this.kmBombInfo.GetBatteryCount(KMBombInfoExtensions.KnownBatteryType.D) > this.kmBombInfo.GetBatteryCount(KMBombInfoExtensions.KnownBatteryType.AA) + this.kmBombInfo.GetBatteryCount(KMBombInfoExtensions.KnownBatteryType.AAx3) + this.kmBombInfo.GetBatteryCount(KMBombInfoExtensions.KnownBatteryType.AAx4);
         }
     }
 
