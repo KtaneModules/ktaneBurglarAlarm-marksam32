@@ -58,11 +58,7 @@ public static class KMBombInfoExtensions
         Unknown = 0,
         Empty = 0,
         D = 1,
-
-        //D batteries currently always come as 1 battery in the one battery holder
         AA = 2,
-        //AA batteries currently always comes in 2 batteries in the one battery holder
-        
         AAx3 = 3,
         AAx4 = 4
     }
