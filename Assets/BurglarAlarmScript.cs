@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+using Rnd = UnityEngine.Random;
+
 public class BurglarAlarmScript : MonoBehaviour {
 
     public KMAudio Audio;
@@ -25,8 +27,6 @@ public class BurglarAlarmScript : MonoBehaviour {
     private int[] answers;
     private bool activated;
 
-    private System.Random rnd = new System.Random(DateTimeOffset.UtcNow.GetHashCode());
-
     private Regex TwitchPlayRegex = new Regex(@"^submit +(\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d)$");
 
 
@@ -41,7 +41,7 @@ public class BurglarAlarmScript : MonoBehaviour {
 
         for (int i = 0; i < this.moduleNumber.Length; ++i)
         {
-            this.moduleNumber[i] = this.rnd.Next(0, 10);
+            this.moduleNumber[i] = Rnd.Range(0, 10);
         };
 
         var burglarAlarmHelper = new BurglarAlarmHelper(this.moduleNumber, this.Info);
