@@ -13,9 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: burglarAlarm
   title: Burglar Alarm
+  author: Marksam32
   description: "Why would you want to rob a bomb?\r\n\r\nCreated by: Marksam32\r\nMod
     id: burglarAlarm\r\n\r\nManual:\r\nHTML: https://ktane.timwi.de/HTML/Burglar%20Alarm.html\r\nPDF:
-    https://ktane.timwi.de/PDF/Burglar%20Alarm.pdf\r\n\r\nTwitch plays is supported.\r\n\nGithub:
+    https://ktane.timwi.de/PDF/Burglar%20Alarm.pdf\r\n\r\nTwitch plays is supported.\r\n\r\nGithub:
     https://github.com/marksam32/ktaneBurglarAlarm"
   version: 1.0
   outputFolder: build

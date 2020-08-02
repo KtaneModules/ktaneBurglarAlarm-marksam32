@@ -247,7 +247,7 @@ public class BurglarAlarmScript : MonoBehaviour {
     
 
     //Twitch plays:
-    KMSelectable[] ProcessTwitchCommand(string command)
+    public KMSelectable[] ProcessTwitchCommand(string command)
     {
         command = command.ToLowerInvariant().Trim();
 
@@ -263,6 +263,21 @@ public class BurglarAlarmScript : MonoBehaviour {
         }
 
         return null;
+    }
+
+    public IEnumerator TwitchHandleForcedSolve()
+    {
+        var solution = numberHandlers.Select(x => x.GetNumber()).ToList();
+
+        ActivateButton.OnInteract();
+        for (int i = 0; i < 8; i++)
+        {
+            Buttons[solution[i]].OnInteract();
+            yield return new WaitForSeconds(.15f);
+        }
+
+        SubmitButton.OnInteract();
+        yield return true;
     }
 
     public string TwitchHelpMessage = "Activate the module using !{0} activate , Submit the correct answer using !{0} submit ######## .";

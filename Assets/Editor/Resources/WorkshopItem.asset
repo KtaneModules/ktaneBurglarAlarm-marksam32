@@ -13,4 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WorkshopPublishedFileID: 1318968178
   Title: Burglar Alarm
-  Tags: []
+  Tags:
+  - Regular Module
